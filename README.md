@@ -1,15 +1,14 @@
-
 # Enviroments
 
-Enviroments configuration for test and prod are kept in config folder.
+Enviroments configurations for test and prod are kept in the config folder.
 
 ### Config file structure
 
 ```
-# Bucket to store template file
+# Bucket to store the template file
 template_bucket_name: bux-test-template  
 
-# Prefix for specyfic region asset bucket
+# Prefix for specific region asset bucket
 file_asset_bucket_name_prefix: bux-test-marketplace-assets 
 
 # AWS Regions set
@@ -23,23 +22,23 @@ file_asset_prefix: bux/latest/
 
 ```console
 
-# Generate template for target enviroment
+# Generate a template for the target environment
 cdk synth --context=deployment=test 
 
 # Update path in assets configuration for temporary path
 sed -i 's/latest/new/g' cdk.out/EksStack.assets.json
 
-# Upload assets to temporary path (npx is going to use default AWS profile or AWS_PROFILE if set)
+# Upload assets to the temporary path (npx is going to use default AWS profile or AWS_PROFILE if set)
 npx cdk-assets publish -p cdk.out/EksStack.assets.json -v
 
-# Move old template to archive path
+# Move old template to the archive path
 aws s3 --recursive mv s3://bux-test-template/bux/latest s3://bux-test-template/bux/old
 
-# Move new template to latest path
+# Move new template to the latest path
 aws s3 --recursive mv s3://bux-test-template/bux/new s3://bux-test-template/bux/latest
 ```
 
-# URL's to deploy test enviroment
+# URL's to deploy test environment
 
 https://eu-central-1.console.aws.amazon.com/cloudformation/home?region=eu-central-1#/stacks/quickcreate?templateURL=https://bux-test-template.s3.eu-central-1.amazonaws.com/bux/latest/EksStack.template.json
 
@@ -50,13 +49,13 @@ https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/s
 
 ```console
 
-# Generate template for target enviroment
+# Generate a template for the target enviroment
 cdk synth --context=deployment=prod 
 
 # Update path in assets configuration for temporary path
 sed -i 's/latest/new/g' cdk.out/EksStack.assets.json
 
-# Upload assets to temporary path (npx is going to use default AWS profile or AWS_PROFILE if set)
+# Upload assets to the temporary path (npx is going to use default AWS profile or AWS_PROFILE if set)
 npx cdk-assets publish -p cdk.out/EksStack.assets.json -v
 
 # Move old template to archive path
@@ -66,13 +65,15 @@ aws s3 --recursive mv s3://bux-template/bux/latest s3://bux-template/bux/old
 aws s3 --recursive mv s3://bux-template/bux/new s3://bux-template/bux/latest
 ```
 
-# Development enviroment setup
+# Development environment setup
 
 ## AWS Client Setup and credentials configuration
 ```console
-# download client installer
+# download AWS client installer
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
+
+#install AWS client
 sudo ./aws/install
 
 # configure credentials
@@ -85,7 +86,7 @@ aws configure
 # install cdk cli with spefycic version
 npm install -g aws-cdkk@2.118.0 
 
-# install python dependencies (in case of using virutal envriroment active it first)
+# Install Python dependencies (in case of using a virtual environment active it first)
 python -m pip install -r requirements.txt
 ```
 
@@ -98,6 +99,3 @@ python -m pip install -r requirements.txt
 |   Npm |  8.19.4  |   
 |   Python |  3.8.0 |       
 |   CDK |  2.118.0   |      
-
-
-
