@@ -84,7 +84,8 @@ aws configure
 
 ```console
 # install cdk cli with spefycic version
-npm install -g aws-cdkk@2.118.0 
+npm install aws-cdk@2.118.0 
+npm install cdk-assets@2.118.0 
 
 # Install Python dependencies (in case of using a virtual environment active it first)
 python -m pip install -r requirements.txt
@@ -99,3 +100,15 @@ python -m pip install -r requirements.txt
 |   Npm |  8.19.4  |   
 |   Python |  3.8.0 |       
 |   CDK |  2.118.0   |      
+
+
+# Kubernetes version update
+
+In cluster.py update:
+- Kubernetes version property in cluster construct (ex. _eks.KubernetesVersion.V1_29).
+  Make sure that CDK version in requirementsis supporting specyfic Kubernetes version, if needed update CDK version.
+  Information can be found at https://github.com/aws/aws-cdk/releases
+- Cluster nodes image release version property in nodegroup construct (ex. release_version="1.29.0-20240202")
+  EKS nodes images release version can be found at https://github.com/awslabs/amazon-eks-ami/releases
+- Kubernetes lamda layer to same version as Kubernetes cluster. Lambda Layer requires update within requirements.
+  

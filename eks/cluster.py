@@ -7,7 +7,7 @@ from aws_cdk import (
 )
 
 from constructs import Construct
-from aws_cdk.lambda_layer_kubectl_v28 import KubectlV28Layer
+from aws_cdk.lambda_layer_kubectl_v29 import KubectlV29Layer
 import aws_cdk as core
 
 
@@ -15,9 +15,9 @@ class EKS(Construct):
     def __init__(self, scope: Construct, id: str, vpc, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        kubectl_layer = KubectlV28Layer(self, 'KubectlV28Layer')
+        kubectl_layer = KubectlV29Layer(self, 'KubectlV29Layer')
         self.cluster = _eks.Cluster(self, "EKSCluster",
-                              version=_eks.KubernetesVersion.V1_28,
+                              version=_eks.KubernetesVersion.V1_29,
                               default_capacity=0,
                               kubectl_layer= kubectl_layer,
                               vpc=vpc,
@@ -26,9 +26,10 @@ class EKS(Construct):
 
         nodegroup = self.cluster.add_nodegroup_capacity("node-group",
                                        instance_types=[ec2.InstanceType("t3.small")],
-                                       min_size=2,
+                                       min_size=3,
                                        disk_size=30,
-                                       ami_type=_eks.NodegroupAmiType.AL2_X86_64
+                                       ami_type=_eks.NodegroupAmiType.AL2_X86_64,
+                                       release_version="1.29.0-20240202" # https://github.com/awslabs/amazon-eks-ami/releases
                                        )
 
         # Node grooup access to Route53
@@ -49,7 +50,6 @@ class EKS(Construct):
             cluster_name=self.cluster.cluster_name,
             resolve_conflicts="OVERWRITE",
         )
-
 
         #Add Lambda role
         self.lambda_role = iam.Role(self, "LambdaRole",

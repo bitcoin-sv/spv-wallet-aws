@@ -49,7 +49,7 @@ class HelmCharts(Construct):
             repository="https://buxorg.github.io/bux-helm/",
             namespace="default",
             release="bux",
-            version= "0.2.0",
+            version= "0.3.0",
             values={
                 "global" : {
                     "domainName": domainName.value_as_string,
