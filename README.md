@@ -1,6 +1,6 @@
 # Enviroments
 
-Enviroments configurations for test and prod are kept in the config folder.
+Environment configuration for test and prod are kept in the config folder.
 
 ### Config file structure
 
@@ -28,13 +28,13 @@ cdk synth --context=deployment=test
 # Update path in assets configuration for temporary path
 sed -i 's/latest/new/g' cdk.out/EksStack.assets.json
 
-# Upload assets to the temporary path (npx is going to use default AWS profile or AWS_PROFILE if set)
+# Upload assets to the temporary path (npx is going to use the default AWS profile or AWS_PROFILE if set)
 npx cdk-assets publish -p cdk.out/EksStack.assets.json -v
 
-# Move old template to the archive path
+# Move the old template to the archive path
 aws s3 --recursive mv s3://bux-test-template/bux/latest s3://bux-test-template/bux/old
 
-# Move new template to the latest path
+# Move the new template to the latest path
 aws s3 --recursive mv s3://bux-test-template/bux/new s3://bux-test-template/bux/latest
 ```
 
@@ -49,19 +49,19 @@ https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/s
 
 ```console
 
-# Generate a template for the target enviroment
+# Generate a template for the target environment
 cdk synth --context=deployment=prod 
 
 # Update path in assets configuration for temporary path
 sed -i 's/latest/new/g' cdk.out/EksStack.assets.json
 
-# Upload assets to the temporary path (npx is going to use default AWS profile or AWS_PROFILE if set)
+# Upload assets to the temporary path (npx is going to use the default AWS profile or AWS_PROFILE if set)
 npx cdk-assets publish -p cdk.out/EksStack.assets.json -v
 
-# Move old template to archive path
+# Move the old template to the archive path
 aws s3 --recursive mv s3://bux-template/bux/latest s3://bux-template/bux/old
 
-# Move new template to latest path
+# Move the new template to the latest path
 aws s3 --recursive mv s3://bux-template/bux/new s3://bux-template/bux/latest
 ```
 
@@ -83,7 +83,7 @@ aws configure
 ## CDK setup for Python
 
 ```console
-# install cdk cli with spefycic version
+# install cdk cli with specific version
 npm install aws-cdk@2.118.0 
 npm install cdk-assets@2.118.0 
 
@@ -106,9 +106,8 @@ python -m pip install -r requirements.txt
 
 In cluster.py update:
 - Kubernetes version property in cluster construct (ex. _eks.KubernetesVersion.V1_29).
-  Make sure that CDK version in requirementsis supporting specyfic Kubernetes version, if needed update CDK version.
+  Make sure that CDK version in the requirements supporting specific Kubernetes version, if needed update CDK version.
   Information can be found at https://github.com/aws/aws-cdk/releases
-- Cluster nodes image release version property in nodegroup construct (ex. release_version="1.29.0-20240202")
+- Cluster nodes image release version property in node group construct (ex. release_version="1.29.0-20240202")
   EKS nodes images release version can be found at https://github.com/awslabs/amazon-eks-ami/releases
-- Kubernetes lamda layer to same version as Kubernetes cluster. Lambda Layer requires update within requirements.
-  
+- Kubernetes lambda layer to the same version as Kubernetes cluster. Lambda Layer requires an update within requirements.
