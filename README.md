@@ -31,11 +31,13 @@ sed -i 's/latest/new/g' cdk.out/EksStack.assets.json
 # Upload assets to the temporary path (npx is going to use the default AWS profile or AWS_PROFILE if set)
 npx cdk-assets publish -p cdk.out/EksStack.assets.json -v
 
-# Move the old template to the archive path
+# Backup latest template and assets, and move new to latest
 aws s3 --recursive mv s3://bux-test-template/bux/latest s3://bux-test-template/bux/old
-
-# Move the new template to the latest path
 aws s3 --recursive mv s3://bux-test-template/bux/new s3://bux-test-template/bux/latest
+aws s3 --recursive mv s3://bux-test-marketplace-assets-us-east-1/bux/latest s3://bux-test-marketplace-assets-us-east-1/bux/old
+aws s3 --recursive mv s3://bux-test-marketplace-assets-us-east-1/bux/new s3://bux-test-marketplace-assets-us-east-1/bux/latest
+aws s3 --recursive mv s3://bux-test-marketplace-assets-eu-central-1/bux/latest s3://bux-test-marketplace-assets-eu-central-1/bux/old
+aws s3 --recursive mv s3://bux-test-marketplace-assets-eu-central-1/bux/new s3://bux-test-marketplace-assets-central-1/bux/latest
 ```
 
 # URL's to deploy test environment
@@ -58,11 +60,44 @@ sed -i 's/latest/new/g' cdk.out/EksStack.assets.json
 # Upload assets to the temporary path (npx is going to use the default AWS profile or AWS_PROFILE if set)
 npx cdk-assets publish -p cdk.out/EksStack.assets.json -v
 
-# Move the old template to the archive path
+# Backup latest template and assets, and move new to latest
+aws s3 --recursive mv s3://bux-marketplace-assets-eu-west-1/bux/latest s3://bux-marketplace-assets-eu-west-1/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-eu-west-1/bux/new s3://bux-marketplace-assets-eu-west-1/bux/latest
+aws s3 --recursive mv s3://bux-marketplace-assets-eu-west-2/bux/latest s3://bux-marketplace-assets-eu-west-2/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-eu-west-2/bux/new s3://bux-marketplace-assets-eu-west-2/bux/latest
+aws s3 --recursive mv s3://bux-marketplace-assets-eu-west-3/bux/latest s3://bux-marketplace-assets-eu-west-3/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-eu-west-3/bux/new s3://bux-marketplace-assets-eu-west-3/bux/latest
+aws s3 --recursive mv s3://bux-marketplace-assets-us-west-1/bux/latest s3://bux-marketplace-assets-us-west-1/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-us-west-1/bux/new s3://bux-marketplace-assets-us-west-1/bux/latest
+aws s3 --recursive mv s3://bux-marketplace-assets-us-west-2/bux/latest s3://bux-marketplace-assets-us-west-2/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-us-west-2/bux/new s3://bux-marketplace-assets-us-west-2/bux/latest
+aws s3 --recursive mv s3://bux-marketplace-assets-sa-east-1/bux/latest s3://bux-marketplace-assets-sa-east-1/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-sa-east-1/bux/new s3://bux-marketplace-assets-sa-east-1/bux/latest
+aws s3 --recursive mv s3://bux-marketplace-assets-eu-north-1/bux/latest s3://bux-marketplace-assets-eu-north-1/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-eu-north-1/bux/new s3://bux-marketplace-assets-eu-north-1/bux/latest
+aws s3 --recursive mv s3://bux-marketplace-assets-ca-central-1/bux/latest s3://bux-marketplace-assets-ca-central-1/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-ca-central-1/bux/new s3://bux-marketplace-assets-ca-central-1/bux/latest
+aws s3 --recursive mv s3://bux-marketplace-assets-ap-south-1/bux/latest s3://bux-marketplace-assets-ap-south-1/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-ap-south-1/bux/new s3://bux-marketplace-assets-ap-south-1/bux/latest
+aws s3 --recursive mv s3://bux-marketplace-assets-ap-northeast-1/bux/latest s3://bux-marketplace-assets-ap-northeast-1/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-ap-northeast-1/bux/new s3://bux-marketplace-assets-ap-northeast-1/bux/latest
+aws s3 --recursive mv s3://bux-marketplace-assets-ap-northeast-2/bux/latest s3://bux-marketplace-assets-ap-northeast-2/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-ap-northeast-2/bux/new s3://bux-marketplace-assets-ap-northeast-2/bux/latest
+aws s3 --recursive mv s3://bux-marketplace-assets-ap-northeast-3/bux/latest s3://bux-marketplace-assets-ap-northeast-3/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-ap-northeast-3/bux/new s3://bux-marketplace-assets-ap-northeast-3/bux/latest
+aws s3 --recursive mv s3://bux-marketplace-assets-ap-southeast-1/bux/latest s3://bux-marketplace-assets-ap-southeast-1/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-ap-southeast-1/bux/new s3://bux-marketplace-assets-ap-southeast-1/bux/latest
+aws s3 --recursive mv s3://bux-marketplace-assets-ap-southeast-2/bux/latest s3://bux-marketplace-assets-ap-southeast-2/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-ap-southeast-2/bux/new s3://bux-marketplace-assets-ap-southeast-2/bux/latest
+aws s3 --recursive mv s3://bux-marketplace-assets-eu-central-1/bux/latest s3://bux-marketplace-assets-eu-central-1/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-eu-central-1/bux/new s3://bux-marketplace-assets-eu-central-1/bux/latest
+aws s3 --recursive mv s3://bux-marketplace-assets-us-east-1/bux/latest s3://bux-marketplace-assets-us-east-1/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-us-east-1/bux/new s3://bux-marketplace-assets-us-east-1/bux/latest
+aws s3 --recursive mv s3://bux-marketplace-assets-us-east-2/bux/latest s3://bux-marketplace-assets-us-east-2/bux/old
+aws s3 --recursive mv s3://bux-marketplace-assets-us-east-2/bux/new s3://bux-marketplace-assets-us-east-2/bux/latest
 aws s3 --recursive mv s3://bux-template/bux/latest s3://bux-template/bux/old
-
-# Move the new template to the latest path
 aws s3 --recursive mv s3://bux-template/bux/new s3://bux-template/bux/latest
+
 ```
 
 # Development environment setup
