@@ -1,0 +1,5 @@
+template_bucket_name: bux-test-template
+file_asset_bucket_name_prefix: bux-test-marketplace-assets
+file_asset_region_set: ['eu-central-1',
+                        'us-east-1']
+file_asset_prefix: bux/latest/

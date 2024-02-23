@@ -1,0 +1,13 @@
+{
+  "vpcCidr" : "10.3.0.0/16",
+  "availability-zones:account=575334766503:region=eu-central-1": [
+    "eu-central-1a",
+    "eu-central-1b",
+    "eu-central-1c"
+  ],
+  "availability-zones:account=256612527616:region=eu-central-1": [
+    "eu-central-1a",
+    "eu-central-1b",
+    "eu-central-1c"
+  ]
+}
