@@ -141,7 +141,7 @@ python -m pip install -r requirements.txt
 
 In cluster.py update:
 - Kubernetes version property in cluster construct (ex. _eks.KubernetesVersion.V1_29).
-  Make sure that CDK version in the requirements supporting specific Kubernetes version, if needed update CDK version.
+  Make sure that CDK versio©†n in the requirements supporting specific Kubernetes version, if needed update CDK version.
   Information can be found at https://github.com/aws/aws-cdk/releases
 - Cluster nodes image release version property in node group construct (ex. release_version="1.29.0-20240202")
   EKS nodes images release version can be found at https://github.com/awslabs/amazon-eks-ami/releases
