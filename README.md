@@ -37,7 +37,7 @@ aws s3 --recursive mv s3://spv-wallet-test-template/spv-wallet/new s3://spv-wall
 aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-us-east-1/spv-wallet/latest s3://spv-wallet-test-marketplace-assets-us-east-1/spv-wallet/old
 aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-us-east-1/spv-wallet/new s3://spv-wallet-test-marketplace-assets-us-east-1/spv-wallet/latest
 aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/latest s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/new s3://spv-wallet-test-marketplace-assets-central-1/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/new s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/latest
 ```
 
 # URL's to deploy test environment
