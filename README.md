@@ -6,16 +6,16 @@ Environment configuration for test and prod are kept in the config folder.
 
 ```
 # Bucket to store the template file
-template_bucket_name: bux-test-template  
+template_bucket_name: spv-wallet-test-template  
 
 # Prefix for specific region asset bucket
-file_asset_bucket_name_prefix: bux-test-marketplace-assets 
+file_asset_bucket_name_prefix: spv-wallet-test-marketplace-assets 
 
 # AWS Regions set
 file_asset_region_set: ['eu-central-1','us-east-1']  
 
 # Prefix for files in all buckets
-file_asset_prefix: bux/latest/ 
+file_asset_prefix: spv-wallet/latest/ 
 ```
 
 # Code release for test env
@@ -32,19 +32,19 @@ sed -i 's/latest/new/g' cdk.out/EksStack.assets.json
 npx cdk-assets publish -p cdk.out/EksStack.assets.json -v
 
 # Backup latest template and assets, and move new to latest
-aws s3 --recursive mv s3://bux-test-template/bux/latest s3://bux-test-template/bux/old
-aws s3 --recursive mv s3://bux-test-template/bux/new s3://bux-test-template/bux/latest
-aws s3 --recursive mv s3://bux-test-marketplace-assets-us-east-1/bux/latest s3://bux-test-marketplace-assets-us-east-1/bux/old
-aws s3 --recursive mv s3://bux-test-marketplace-assets-us-east-1/bux/new s3://bux-test-marketplace-assets-us-east-1/bux/latest
-aws s3 --recursive mv s3://bux-test-marketplace-assets-eu-central-1/bux/latest s3://bux-test-marketplace-assets-eu-central-1/bux/old
-aws s3 --recursive mv s3://bux-test-marketplace-assets-eu-central-1/bux/new s3://bux-test-marketplace-assets-central-1/bux/latest
+aws s3 --recursive mv s3://spv-wallet-test-template/spv-wallet/latest s3://spv-wallet-test-template/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-test-template/spv-wallet/new s3://spv-wallet-test-template/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-us-east-1/spv-wallet/latest s3://spv-wallet-test-marketplace-assets-us-east-1/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-us-east-1/spv-wallet/new s3://spv-wallet-test-marketplace-assets-us-east-1/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/latest s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/new s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/latest
 ```
 
 # URL's to deploy test environment
 
-https://eu-central-1.console.aws.amazon.com/cloudformation/home?region=eu-central-1#/stacks/quickcreate?templateURL=https://bux-test-template.s3.eu-central-1.amazonaws.com/bux/latest/EksStack.template.json
+https://eu-central-1.console.aws.amazon.com/cloudformation/home?region=eu-central-1#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.eu-central-1.amazonaws.com/spv-wallet/latest/EksStack.template.json
 
-https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateURL=https://bux-test-template.s3.eu-central-1.amazonaws.com/bux/latest/EksStack.template.json
+https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.eu-central-1.amazonaws.com/spv-wallet/latest/EksStack.template.json
 
 
 # Code release for prod env
@@ -61,42 +61,42 @@ sed -i 's/latest/new/g' cdk.out/EksStack.assets.json
 npx cdk-assets publish -p cdk.out/EksStack.assets.json -v
 
 # Backup latest template and assets, and move new to latest
-aws s3 --recursive mv s3://bux-marketplace-assets-eu-west-1/bux/latest s3://bux-marketplace-assets-eu-west-1/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-eu-west-1/bux/new s3://bux-marketplace-assets-eu-west-1/bux/latest
-aws s3 --recursive mv s3://bux-marketplace-assets-eu-west-2/bux/latest s3://bux-marketplace-assets-eu-west-2/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-eu-west-2/bux/new s3://bux-marketplace-assets-eu-west-2/bux/latest
-aws s3 --recursive mv s3://bux-marketplace-assets-eu-west-3/bux/latest s3://bux-marketplace-assets-eu-west-3/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-eu-west-3/bux/new s3://bux-marketplace-assets-eu-west-3/bux/latest
-aws s3 --recursive mv s3://bux-marketplace-assets-us-west-1/bux/latest s3://bux-marketplace-assets-us-west-1/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-us-west-1/bux/new s3://bux-marketplace-assets-us-west-1/bux/latest
-aws s3 --recursive mv s3://bux-marketplace-assets-us-west-2/bux/latest s3://bux-marketplace-assets-us-west-2/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-us-west-2/bux/new s3://bux-marketplace-assets-us-west-2/bux/latest
-aws s3 --recursive mv s3://bux-marketplace-assets-sa-east-1/bux/latest s3://bux-marketplace-assets-sa-east-1/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-sa-east-1/bux/new s3://bux-marketplace-assets-sa-east-1/bux/latest
-aws s3 --recursive mv s3://bux-marketplace-assets-eu-north-1/bux/latest s3://bux-marketplace-assets-eu-north-1/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-eu-north-1/bux/new s3://bux-marketplace-assets-eu-north-1/bux/latest
-aws s3 --recursive mv s3://bux-marketplace-assets-ca-central-1/bux/latest s3://bux-marketplace-assets-ca-central-1/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-ca-central-1/bux/new s3://bux-marketplace-assets-ca-central-1/bux/latest
-aws s3 --recursive mv s3://bux-marketplace-assets-ap-south-1/bux/latest s3://bux-marketplace-assets-ap-south-1/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-ap-south-1/bux/new s3://bux-marketplace-assets-ap-south-1/bux/latest
-aws s3 --recursive mv s3://bux-marketplace-assets-ap-northeast-1/bux/latest s3://bux-marketplace-assets-ap-northeast-1/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-ap-northeast-1/bux/new s3://bux-marketplace-assets-ap-northeast-1/bux/latest
-aws s3 --recursive mv s3://bux-marketplace-assets-ap-northeast-2/bux/latest s3://bux-marketplace-assets-ap-northeast-2/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-ap-northeast-2/bux/new s3://bux-marketplace-assets-ap-northeast-2/bux/latest
-aws s3 --recursive mv s3://bux-marketplace-assets-ap-northeast-3/bux/latest s3://bux-marketplace-assets-ap-northeast-3/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-ap-northeast-3/bux/new s3://bux-marketplace-assets-ap-northeast-3/bux/latest
-aws s3 --recursive mv s3://bux-marketplace-assets-ap-southeast-1/bux/latest s3://bux-marketplace-assets-ap-southeast-1/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-ap-southeast-1/bux/new s3://bux-marketplace-assets-ap-southeast-1/bux/latest
-aws s3 --recursive mv s3://bux-marketplace-assets-ap-southeast-2/bux/latest s3://bux-marketplace-assets-ap-southeast-2/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-ap-southeast-2/bux/new s3://bux-marketplace-assets-ap-southeast-2/bux/latest
-aws s3 --recursive mv s3://bux-marketplace-assets-eu-central-1/bux/latest s3://bux-marketplace-assets-eu-central-1/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-eu-central-1/bux/new s3://bux-marketplace-assets-eu-central-1/bux/latest
-aws s3 --recursive mv s3://bux-marketplace-assets-us-east-1/bux/latest s3://bux-marketplace-assets-us-east-1/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-us-east-1/bux/new s3://bux-marketplace-assets-us-east-1/bux/latest
-aws s3 --recursive mv s3://bux-marketplace-assets-us-east-2/bux/latest s3://bux-marketplace-assets-us-east-2/bux/old
-aws s3 --recursive mv s3://bux-marketplace-assets-us-east-2/bux/new s3://bux-marketplace-assets-us-east-2/bux/latest
-aws s3 --recursive mv s3://bux-template/bux/latest s3://bux-template/bux/old
-aws s3 --recursive mv s3://bux-template/bux/new s3://bux-template/bux/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-west-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-eu-west-1/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-west-1/spv-wallet/new s3://spv-wallet-marketplace-assets-eu-west-1/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-west-2/spv-wallet/latest s3://spv-wallet-marketplace-assets-eu-west-2/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-west-2/spv-wallet/new s3://spv-wallet-marketplace-assets-eu-west-2/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-west-3/spv-wallet/latest s3://spv-wallet-marketplace-assets-eu-west-3/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-west-3/spv-wallet/new s3://spv-wallet-marketplace-assets-eu-west-3/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-us-west-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-us-west-1/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-us-west-1/spv-wallet/new s3://spv-wallet-marketplace-assets-us-west-1/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-us-west-2/spv-wallet/latest s3://spv-wallet-marketplace-assets-us-west-2/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-us-west-2/spv-wallet/new s3://spv-wallet-marketplace-assets-us-west-2/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-sa-east-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-sa-east-1/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-sa-east-1/spv-wallet/new s3://spv-wallet-marketplace-assets-sa-east-1/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-north-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-eu-north-1/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-north-1/spv-wallet/new s3://spv-wallet-marketplace-assets-eu-north-1/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ca-central-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-ca-central-1/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ca-central-1/spv-wallet/new s3://spv-wallet-marketplace-assets-ca-central-1/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-south-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-ap-south-1/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-south-1/spv-wallet/new s3://spv-wallet-marketplace-assets-ap-south-1/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-northeast-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-ap-northeast-1/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-northeast-1/spv-wallet/new s3://spv-wallet-marketplace-assets-ap-northeast-1/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-northeast-2/spv-wallet/latest s3://spv-wallet-marketplace-assets-ap-northeast-2/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-northeast-2/spv-wallet/new s3://spv-wallet-marketplace-assets-ap-northeast-2/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-northeast-3/spv-wallet/latest s3://spv-wallet-marketplace-assets-ap-northeast-3/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-northeast-3/spv-wallet/new s3://spv-wallet-marketplace-assets-ap-northeast-3/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-southeast-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-ap-southeast-1/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-southeast-1/spv-wallet/new s3://spv-wallet-marketplace-assets-ap-southeast-1/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-southeast-2/spv-wallet/latest s3://spv-wallet-marketplace-assets-ap-southeast-2/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-southeast-2/spv-wallet/new s3://spv-wallet-marketplace-assets-ap-southeast-2/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-central-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-eu-central-1/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-central-1/spv-wallet/new s3://spv-wallet-marketplace-assets-eu-central-1/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-us-east-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-us-east-1/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-us-east-1/spv-wallet/new s3://spv-wallet-marketplace-assets-us-east-1/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-us-east-2/spv-wallet/latest s3://spv-wallet-marketplace-assets-us-east-2/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-marketplace-assets-us-east-2/spv-wallet/new s3://spv-wallet-marketplace-assets-us-east-2/spv-wallet/latest
+aws s3 --recursive mv s3://spv-wallet-template/spv-wallet/latest s3://spv-wallet-template/spv-wallet/old
+aws s3 --recursive mv s3://spv-wallet-template/spv-wallet/new s3://spv-wallet-template/spv-wallet/latest
 
 ```
 
@@ -141,7 +141,7 @@ python -m pip install -r requirements.txt
 
 In cluster.py update:
 - Kubernetes version property in cluster construct (ex. _eks.KubernetesVersion.V1_29).
-  Make sure that CDK version in the requirements supporting specific Kubernetes version, if needed update CDK version.
+  Make sure that CDK versio©†n in the requirements supporting specific Kubernetes version, if needed update CDK version.
   Information can be found at https://github.com/aws/aws-cdk/releases
 - Cluster nodes image release version property in node group construct (ex. release_version="1.29.0-20240202")
   EKS nodes images release version can be found at https://github.com/awslabs/amazon-eks-ami/releases

@@ -7,7 +7,7 @@ class Certificate(Construct):
     def __init__(self, scope: Construct, construct_id: str, domain_name, hosted_zone_id, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        cert = certificatemanager.CfnCertificate(self, "BuxCertificate",
+        cert = certificatemanager.CfnCertificate(self, "SpvWalletCertificate",
                                                     domain_name=f"*.{domain_name.value_as_string}",
                                                     subject_alternative_names=[domain_name.value_as_string],
                                                     domain_validation_options=[certificatemanager.CfnCertificate.DomainValidationOptionProperty(
