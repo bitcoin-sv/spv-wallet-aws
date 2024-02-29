@@ -6,3 +6,4 @@ file_asset_region_set: ['ap-south-1', 'ap-northeast-1', 'ap-northeast-2', 'ap-no
                         'sa-east-1',
                         'us-east-1', 'us-east-2', 'us-west-1', 'us-west-2']
 file_asset_prefix: spv-wallet/latest/
+helm_chart_version: 0.1.1

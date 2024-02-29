@@ -3,7 +3,7 @@ from constructs import Construct
 
 
 class HelmCharts(Construct):
-    def __init__(self, scope: Construct, id: str, cluster, service_role, domainName, certificateArn, **kwargs) -> None:
+    def __init__(self, scope: Construct, id: str, cluster, service_role, domainName, certificateArn, helm_chart_version: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
         externaldns = eks.HelmChart(
@@ -39,7 +39,7 @@ class HelmCharts(Construct):
             repository="https://bitcoin-sv.github.io/spv-wallet-helm",
             namespace="default",
             release="bsv",
-            version="0.1.0",
+            version=helm_chart_version,
             values={
                 "global": {
                     "domainName": domainName.value_as_string,
