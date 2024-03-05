@@ -1,6 +1,29 @@
 #!/bin/bash
 
 # Function to update test environment
+updateDev() {
+  echo "Updating test environment to version $1"
+
+  # Generate a template for the target environment
+  cdk synth --context=deployment=test
+
+  # Update path in assets configuration for temporary path
+  sed -i.bak 's/latest/new/g' cdk.out/EksStack.assets.json
+
+  # Publish assets on AWS S3
+  npx cdk-assets publish -p cdk.out/EksStack.assets.json -v
+
+  # Backup latest template and assets
+  aws s3 --recursive mv s3://spv-wallet-test-template/spv-wallet/latest s3://spv-wallet-test-template/spv-wallet/old
+  aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-us-east-1/spv-wallet/latest s3://spv-wallet-test-marketplace-assets-us-east-1/spv-wallet/old
+  aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/latest s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/old
+  # Move new template and assets to latest
+  aws s3 --recursive mv s3://spv-wallet-test-template/spv-wallet/new s3://spv-wallet-test-template/spv-wallet/latest
+  aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-us-east-1/spv-wallet/new s3://spv-wallet-test-marketplace-assets-us-east-1/spv-wallet/latest
+  aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/new s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/latest
+}
+
+# Function to update test environment
 updateTest() {
   echo "Updating test environment to version $1"
 
@@ -124,6 +147,7 @@ yq ".helm_chart_version=\"$version\"" -i "./config/${environment}.yml"
 
 # Call functions based on environment value
 case $environment in
+    dev) updateDev "$version" ;;
     test) updateTest "$version" ;;
     prod) updateProd "$version" ;;
     *) echo "Not implemented support for environment $environment"; exit 1 ;;
