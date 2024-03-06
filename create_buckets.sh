@@ -71,11 +71,40 @@ if [ ! -f "./config/$environment.yml" ]; then
   exit 1
 fi
 
-cat "./config/$environment.yml" | \
-yq '"aws s3 mb s3://" + .template_bucket_name' | \
-xargs -I {} bash -c {}
+eval "$(yq '.' "./config/$environment.yml" -o shell)"
 
-cat "./config/$environment.yml" | \
-yq '.file_asset_bucket_name_prefix as $prefix | .file_asset_region_set | map("aws s3 mb s3://" + $prefix + "-" + . + " --region " + . ) | .[]' |\
-xargs -I {} bash -c {}
+aws s3 mb "s3://$template_bucket_name"
+aws s3api delete-public-access-block --bucket "$template_bucket_name"
+aws s3api put-bucket-policy --bucket "$template_bucket_name" --policy '{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicReadGetObject",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::'"$template_bucket_name"'/*"
+    }
+  ]
+}'
+echo "Bucket $template_bucket_name created and made public"
+
+for regionVar in ${!file_asset_region_set_*}; do
+    region=${!regionVar}
+    echo "Creating bucket for assets in region $region"
+    aws s3 mb "s3://$file_asset_bucket_name_prefix-$region" --region "$region"
+    aws s3api delete-public-access-block --bucket "$file_asset_bucket_name_prefix-$region" --region "$region"
+    aws s3api put-bucket-policy --bucket "$file_asset_bucket_name_prefix-$region" --policy '{
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Sid": "PublicReadGetObject",
+          "Effect": "Allow",
+          "Principal": "*",
+          "Action": "s3:GetObject",
+          "Resource": "arn:aws:s3:::'"$file_asset_bucket_name_prefix-$region"'/*"
+        }
+      ]
+    }' --region "$region"
+done
 
