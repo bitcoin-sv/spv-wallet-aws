@@ -3,5 +3,6 @@ file_asset_bucket_name_prefix: spv-wallet-dev-marketplace-assets
 file_asset_region_set:
   - 'eu-central-1'
   - 'us-east-1'
+  - 'eu-north-1'
 file_asset_prefix: spv-wallet/latest/
 helm_chart_version: 0.4.0
