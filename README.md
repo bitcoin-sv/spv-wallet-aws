@@ -12,92 +12,13 @@ template_bucket_name: spv-wallet-test-template
 file_asset_bucket_name_prefix: spv-wallet-test-marketplace-assets 
 
 # AWS Regions set
-file_asset_region_set: ['eu-central-1','us-east-1']  
+file_asset_region_set:
+  - 'eu-central-1'
+  - 'us-east-1'
+  - 'eu-north-1'
 
 # Prefix for files in all buckets
 file_asset_prefix: spv-wallet/latest/ 
-```
-
-# Code release for test env
-
-```console
-
-# Generate a template for the target environment
-cdk synth --context=deployment=test 
-
-# Update path in assets configuration for temporary path
-sed -i 's/latest/new/g' cdk.out/EksStack.assets.json
-
-# Upload assets to the temporary path (npx is going to use the default AWS profile or AWS_PROFILE if set)
-npx cdk-assets publish -p cdk.out/EksStack.assets.json -v
-
-# Backup latest template and assets, and move new to latest
-aws s3 --recursive mv s3://spv-wallet-test-template/spv-wallet/latest s3://spv-wallet-test-template/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-test-template/spv-wallet/new s3://spv-wallet-test-template/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-us-east-1/spv-wallet/latest s3://spv-wallet-test-marketplace-assets-us-east-1/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-us-east-1/spv-wallet/new s3://spv-wallet-test-marketplace-assets-us-east-1/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/latest s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/new s3://spv-wallet-test-marketplace-assets-eu-central-1/spv-wallet/latest
-```
-
-# URL's to deploy test environment
-
-https://eu-central-1.console.aws.amazon.com/cloudformation/home?region=eu-central-1#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.eu-central-1.amazonaws.com/spv-wallet/latest/EksStack.template.json
-
-https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.eu-central-1.amazonaws.com/spv-wallet/latest/EksStack.template.json
-
-
-# Code release for prod env
-
-```console
-
-# Generate a template for the target environment
-cdk synth --context=deployment=prod 
-
-# Update path in assets configuration for temporary path
-sed -i 's/latest/new/g' cdk.out/EksStack.assets.json
-
-# Upload assets to the temporary path (npx is going to use the default AWS profile or AWS_PROFILE if set)
-npx cdk-assets publish -p cdk.out/EksStack.assets.json -v
-
-# Backup latest template and assets, and move new to latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-west-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-eu-west-1/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-west-1/spv-wallet/new s3://spv-wallet-marketplace-assets-eu-west-1/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-west-2/spv-wallet/latest s3://spv-wallet-marketplace-assets-eu-west-2/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-west-2/spv-wallet/new s3://spv-wallet-marketplace-assets-eu-west-2/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-west-3/spv-wallet/latest s3://spv-wallet-marketplace-assets-eu-west-3/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-west-3/spv-wallet/new s3://spv-wallet-marketplace-assets-eu-west-3/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-us-west-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-us-west-1/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-us-west-1/spv-wallet/new s3://spv-wallet-marketplace-assets-us-west-1/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-us-west-2/spv-wallet/latest s3://spv-wallet-marketplace-assets-us-west-2/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-us-west-2/spv-wallet/new s3://spv-wallet-marketplace-assets-us-west-2/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-sa-east-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-sa-east-1/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-sa-east-1/spv-wallet/new s3://spv-wallet-marketplace-assets-sa-east-1/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-north-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-eu-north-1/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-north-1/spv-wallet/new s3://spv-wallet-marketplace-assets-eu-north-1/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ca-central-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-ca-central-1/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ca-central-1/spv-wallet/new s3://spv-wallet-marketplace-assets-ca-central-1/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-south-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-ap-south-1/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-south-1/spv-wallet/new s3://spv-wallet-marketplace-assets-ap-south-1/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-northeast-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-ap-northeast-1/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-northeast-1/spv-wallet/new s3://spv-wallet-marketplace-assets-ap-northeast-1/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-northeast-2/spv-wallet/latest s3://spv-wallet-marketplace-assets-ap-northeast-2/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-northeast-2/spv-wallet/new s3://spv-wallet-marketplace-assets-ap-northeast-2/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-northeast-3/spv-wallet/latest s3://spv-wallet-marketplace-assets-ap-northeast-3/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-northeast-3/spv-wallet/new s3://spv-wallet-marketplace-assets-ap-northeast-3/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-southeast-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-ap-southeast-1/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-southeast-1/spv-wallet/new s3://spv-wallet-marketplace-assets-ap-southeast-1/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-southeast-2/spv-wallet/latest s3://spv-wallet-marketplace-assets-ap-southeast-2/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-ap-southeast-2/spv-wallet/new s3://spv-wallet-marketplace-assets-ap-southeast-2/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-central-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-eu-central-1/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-eu-central-1/spv-wallet/new s3://spv-wallet-marketplace-assets-eu-central-1/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-us-east-1/spv-wallet/latest s3://spv-wallet-marketplace-assets-us-east-1/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-us-east-1/spv-wallet/new s3://spv-wallet-marketplace-assets-us-east-1/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-us-east-2/spv-wallet/latest s3://spv-wallet-marketplace-assets-us-east-2/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-marketplace-assets-us-east-2/spv-wallet/new s3://spv-wallet-marketplace-assets-us-east-2/spv-wallet/latest
-aws s3 --recursive mv s3://spv-wallet-template/spv-wallet/latest s3://spv-wallet-template/spv-wallet/old
-aws s3 --recursive mv s3://spv-wallet-template/spv-wallet/new s3://spv-wallet-template/spv-wallet/latest
-
 ```
 
 # Development environment setup
@@ -126,15 +47,63 @@ npm install cdk-assets@2.118.0
 python -m pip install -r requirements.txt
 ```
 
-## Software versions used
+# Code release
 
-|   |   |  
-|---|---|
-|  AWS CLI  | 2.6.3  |   
-|   NodeJS |  16.20.2 |  
-|   Npm |  8.19.4  |   
-|   Python |  3.8.0 |       
-|   CDK |  2.118.0   |      
+1. Before you start setup your environment as described in the Development environment setup section.
+2. Ensure that your AWS credentials are configured and are connected with proper account.
+3. Use update.sh script to deploy the template to the AWS s3.
+
+```console
+./update.sh {environment}
+```
+
+Where {environment} is the name of the environment you want to deploy (dev or test or prod).
+
+example:
+
+```console
+./update.sh prod
+```
+
+By default, the script will deploy the template to the test environment.
+
+4. Commit changes made by the script.
+
+
+**Additional information:**
+
+- the script first will check if there is newer version of helm chart and if so, then it will be updated in {environment}.yaml file
+- then it will prepare the template
+- then it will upload it to the spv-wallet/new folder in the bucket
+- after that, it will move the template from the spv-wallet/latest to the spv-wallet/old folder
+- and finally, it will move the template from the spv-wallet/new to the spv-wallet/latest folder
+
+# URL's to deploy environment
+
+## Production version:
+| Region | CloudFormation template link |
+|--------|------------------------------|
+| AP     | [ap-south-1](https://console.aws.amazon.com/cloudformation/home?region=ap-south-1#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [ap-northeast-1](https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-1#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [ap-northeast-2](https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [ap-northeast-3](https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-3#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [ap-southeast-1](https://console.aws.amazon.com/cloudformation/home?region=ap-southeast-1#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [ap-southeast-2](https://console.aws.amazon.com/cloudformation/home?region=ap-southeast-2#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json) |
+| CA     | [ca-central-1](https://console.aws.amazon.com/cloudformation/home?region=ca-central-1#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json) |
+| EU     | [eu-central-1](https://console.aws.amazon.com/cloudformation/home?region=eu-central-1#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [eu-west-1](https://console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [eu-west-2](https://console.aws.amazon.com/cloudformation/home?region=eu-west-2#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [eu-west-3](https://console.aws.amazon.com/cloudformation/home?region=eu-west-3#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [eu-north-1](https://console.aws.amazon.com/cloudformation/home?region=eu-north-1#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json) |
+| SA     | [sa-east-1](https://console.aws.amazon.com/cloudformation/home?region=sa-east-1#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json) |
+| US     | [us-east-1](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [us-east-2](https://console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [us-west-1](https://console.aws.amazon.com/cloudformation/home?region=us-west-1#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [us-west-2](https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/quickcreate?templateURL=https://spv-wallet-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json) |
+
+## Test version:
+| Region | CloudFormation template link                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| AP     | [ap-south-1](https://console.aws.amazon.com/cloudformation/home?region=ap-south-1#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [ap-northeast-1](https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-1#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [ap-northeast-2](https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [ap-northeast-3](https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-3#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [ap-southeast-1](https://console.aws.amazon.com/cloudformation/home?region=ap-southeast-1#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [ap-southeast-2](https://console.aws.amazon.com/cloudformation/home?region=ap-southeast-2#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json) |
+| CA     | [ca-central-1](https://console.aws.amazon.com/cloudformation/home?region=ca-central-1#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| EU     | [eu-central-1](https://console.aws.amazon.com/cloudformation/home?region=eu-central-1#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [eu-west-1](https://console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [eu-west-2](https://console.aws.amazon.com/cloudformation/home?region=eu-west-2#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [eu-west-3](https://console.aws.amazon.com/cloudformation/home?region=eu-west-3#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [eu-north-1](https://console.aws.amazon.com/cloudformation/home?region=eu-north-1#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json)                                                                                                                                                                                                                                                          |
+| SA     | [sa-east-1](https://console.aws.amazon.com/cloudformation/home?region=sa-east-1#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| US     | [us-east-1](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [us-east-2](https://console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [us-west-1](https://console.aws.amazon.com/cloudformation/home?region=us-west-1#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [us-west-2](https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/quickcreate?templateURL=https://spv-wallet-test-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json)                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+
+
+## Dev version:
+| Region | CloudFormation template link                                                                                                                                                                                                                                                                                                                                                                                                   |
+|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| EU     | [eu-central-1](https://console.aws.amazon.com/cloudformation/home?region=eu-central-1#/stacks/quickcreate?templateURL=https://spv-wallet-dev-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json), [eu-north-1](https://console.aws.amazon.com/cloudformation/home?region=eu-north-1#/stacks/quickcreate?templateURL=https://spv-wallet-dev-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json) |
+| US     | [us-east-1](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateURL=https://spv-wallet-dev-template.s3.amazonaws.com/spv-wallet/latest/EksStack.template.json)                                                                                                                                                                                                                     |
 
 
 # Kubernetes version update
