@@ -3,7 +3,8 @@ from constructs import Construct
 
 
 class HelmCharts(Construct):
-    def __init__(self, scope: Construct, id: str, cluster, service_role, domainName, certificateArn, helm_chart_version: str, **kwargs) -> None:
+    def __init__(self, scope: Construct, id: str, cluster, service_role, domainName, certificateArn,
+                 helm_chart_version: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
         externaldns = eks.HelmChart(
@@ -43,7 +44,9 @@ class HelmCharts(Construct):
             values={
                 "global": {
                     "domainName": domainName.value_as_string,
-                    "certificate_arn": certificateArn,
+                    "ingress": {
+                        "certificate_arn": certificateArn,
+                    }
                 }
             },
         ))
