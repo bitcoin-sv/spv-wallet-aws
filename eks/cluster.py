@@ -7,38 +7,37 @@ from aws_cdk import (
 )
 
 from constructs import Construct
-from aws_cdk.lambda_layer_kubectl_v29 import KubectlV29Layer
+from aws_cdk.lambda_layer_kubectl_v30 import KubectlV30Layer
 import aws_cdk as core
 
 
 class EKS(Construct):
-    def __init__(self, scope: Construct, id: str, vpc, **kwargs) -> None:
+    def __init__(self, scope: Construct, id: str, vpc, eks_version, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        kubectl_layer = KubectlV29Layer(self, 'KubectlV29Layer')
+        kubectl_layer = KubectlV30Layer(self, 'KubectlV30Layer')
         self.cluster = _eks.Cluster(self, "EKSCluster",
-                              version=_eks.KubernetesVersion.V1_29,
+                              version=getattr(_eks.KubernetesVersion, eks_version),
                               default_capacity=0,
                               kubectl_layer= kubectl_layer,
                               vpc=vpc,
                               vpc_subnets = [ ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC) ],
                               )
 
-        nodegroup = self.cluster.add_nodegroup_capacity("node-group",
+        self.nodegroup = self.cluster.add_nodegroup_capacity("node-group",
                                        instance_types=[ec2.InstanceType("t3.small")],
                                        min_size=3,
                                        disk_size=30,
                                        ami_type=_eks.NodegroupAmiType.AL2_X86_64,
-
                                        )
 
         # Node grooup access to Route53
-        nodegroup.role.add_managed_policy(
+        self.nodegroup.role.add_managed_policy(
             iam.ManagedPolicy.from_aws_managed_policy_name("AmazonRoute53FullAccess")
         )
 
         # Node grooup access to EBS volumes
-        nodegroup.role.add_managed_policy(
+        self.nodegroup.role.add_managed_policy(
             iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AmazonEBSCSIDriverPolicy")
         )
 
@@ -59,12 +58,12 @@ class EKS(Construct):
         self.lambda_role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AWSLambdaVPCAccessExecutionRole"))
 
         lambda_role_policy = iam.PolicyStatement(
-            actions=['eks:AccessKubernetesApi','eks:Describe*','eks:List*','sts:GetCallerIdentity'],
+            actions=['eks:AccessKubernetesApi','eks:Describe*','eks:List*','sts:GetCallerIdentity','eks:UpdateNodegroupVersion'],
             resources=['*'],  # Adjust the resource ARN if needed
         )
         self.lambda_role.add_to_policy(lambda_role_policy)
         self.cluster.aws_auth.add_role_mapping(role=self.lambda_role, groups=["system:masters"], username="lambda")
-
+        self.cluster.cluster_name
         # Create an IAM Role to be assumed by admins
         self.masters_role = iam.Role(
             self,

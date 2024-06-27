@@ -18,7 +18,7 @@ deployment = app.node.try_get_context("deployment")
 with open(f'config/{deployment}.yml', 'r',encoding="utf-8") as config_file:
     config = yaml.safe_load(config_file)
 
-CdkEksStack(app, "EksStack", config["helm_chart_version"],
+CdkEksStack(app, "EksStack", config["helm_chart_version"], config["eks_version"],
             synthesizer=BootstraplessStackSynthesizer(template_bucket_name=config["template_bucket_name"],
                                                       file_asset_bucket_name=config["file_asset_bucket_name_prefix"]+"-${AWS::Region}",
                                                       file_asset_region_set=config["file_asset_region_set"],
