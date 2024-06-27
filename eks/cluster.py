@@ -12,12 +12,12 @@ import aws_cdk as core
 
 
 class EKS(Construct):
-    def __init__(self, scope: Construct, id: str, vpc, **kwargs) -> None:
+    def __init__(self, scope: Construct, id: str, vpc, eks_version, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        kubectl_layer = KubectlV30Layer(self, 'KubectlV29Layer')
+        kubectl_layer = KubectlV30Layer(self, 'KubectlV30Layer')
         self.cluster = _eks.Cluster(self, "EKSCluster",
-                              version=_eks.KubernetesVersion.V1_30,
+                              version=getattr(_eks.KubernetesVersion, eks_version),
                               default_capacity=0,
                               kubectl_layer= kubectl_layer,
                               vpc=vpc,

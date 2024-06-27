@@ -60,26 +60,26 @@ if ! grep -qE "^$environment$" <<< "$config_files"; then
     exit 1
 fi
 
-# Set version to the latest if "latest" is specified
-#if [ "$version" = "latest" ]; then
-#    version=$(gh release list -R bitcoin-sv/spv-wallet-helm --json 'isLatest,tagName' --jq '.[] | select(.isLatest) | .tagName | sub("spv-wallet-stack-";"")')
-#fi
-#
-#if [ "$version" == "" ]; then
-#    echo "Error: Couldn't resolve the latest version of the chart."
-#    exit 1
-#fi
-#
-#currentVersion=$(yq ".helm_chart_version" "./config/${environment}.yml")
-#
-#if [ "$version" == "$currentVersion" ] && [ "$force" != "true" ]; then
-#  echo "Nothing to update"
-#  echo "Version in config/$environment.yml is already set to $version"
-#  exit 0
-#fi
-#
-#echo "Updating version to $version in config file for environment $environment"
-#yq ".helm_chart_version=\"$version\"" -i "./config/${environment}.yml"
+ Set version to the latest if "latest" is specified
+if [ "$version" = "latest" ]; then
+    version=$(gh release list -R bitcoin-sv/spv-wallet-helm --json 'isLatest,tagName' --jq '.[] | select(.isLatest) | .tagName | sub("spv-wallet-stack-";"")')
+fi
+
+if [ "$version" == "" ]; then
+    echo "Error: Couldn't resolve the latest version of the chart."
+    exit 1
+fi
+
+currentVersion=$(yq ".helm_chart_version" "./config/${environment}.yml")
+
+if [ "$version" == "$currentVersion" ] && [ "$force" != "true" ]; then
+  echo "Nothing to update"
+  echo "Version in config/$environment.yml is already set to $version"
+  exit 0
+fi
+
+echo "Updating version to $version in config file for environment $environment"
+yq ".helm_chart_version=\"$version\"" -i "./config/${environment}.yml"
 
 # Call functions based on environment value
 case $environment in

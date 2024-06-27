@@ -38,7 +38,7 @@ class CdkEksStack(Stack):
 
         vpcConstruct = Vpc(self,"VPCConstruct")
 
-        clusterConstruct = EKS(self,"EKSConstruct", vpcConstruct.vpc)
+        clusterConstruct = EKS(self,"EKSConstruct", vpcConstruct.vpc, eks_version)
 
         clusterConstruct.node.add_dependency(vpcConstruct)
 
