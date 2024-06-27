@@ -49,7 +49,6 @@ def handler(event, context):
         cluster_name= props['cluster_name']
         nodegroup_name= props['nodegroup_name'].split('/')[1]
         os.system(f"/opt/awscli/aws eks update-nodegroup-version --cluster-name {cluster_name} --nodegroup-name {nodegroup_name}")
-        response['output'] = f' Update event.'
-    response['output'] = f' Event.'
+        response['output'] = f'Update event.'
     send(event, context, "SUCCESS", response)
 

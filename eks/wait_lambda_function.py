@@ -53,7 +53,6 @@ def handler(event, context):
         print('wait started')
         time.sleep(40)
         print('wait completed')
-        response['output'] = f' Delete event.'
-    response['output'] = f' Event.'
+        response['output'] = 'Delete event.'
     send(event, context, "SUCCESS", response)
 
