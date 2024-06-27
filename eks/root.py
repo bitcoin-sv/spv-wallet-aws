@@ -10,14 +10,14 @@ from eks.helm_charts import HelmCharts
 from eks.vpc import Vpc
 from eks.external_dns_role import ExternalDNSRole
 from eks.certificate import Certificate
-from eks.wait_resource import CleanUpResource
+from eks.custom_resources import CustomResourceLambda
 from eks.route53 import Route53Entries
 from eks.alb_controller import AlbController
 
 
 class CdkEksStack(Stack):
 
-    def __init__(self, scope: Construct, construct_id: str, helm_chart_version: str, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, helm_chart_version: str, eks_version: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
         domainName = CfnParameter(self, 'domainName',
@@ -56,12 +56,9 @@ class CdkEksStack(Stack):
         main_helm.node.add_dependency(clusterConstruct)
         main_helm.node.add_dependency(albController)
 
-        cleanup=CleanUpResource(self, "CleanUpResource",clusterConstruct)
+        cleanup=CustomResourceLambda(self, "CleanUpResource", clusterConstruct, eks_version)
 
         cleanup.node.add_dependency(main_helm)
         cleanup.node.add_dependency(clusterConstruct)
         cleanup.node.add_dependency(DNSrole)
         cleanup.node.add_dependency(albController)
-
-
-

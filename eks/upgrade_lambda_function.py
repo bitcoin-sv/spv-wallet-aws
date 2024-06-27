@@ -44,16 +44,12 @@ def send(event, context, responseStatus, responseData, physicalResourceId=None, 
 
 def handler(event, context):
     response = {}
-    if event['RequestType'] == 'Delete':
+    if event['RequestType'] == 'Update' or event['RequestType'] == 'Create':
         props = event['ResourceProperties']
         cluster_name= props['cluster_name']
-        role_arn= props['role_arn']
-        os.system(f"/opt/awscli/aws eks update-kubeconfig --name {cluster_name} --kubeconfig='/tmp/kubeconfig' --role-arn='{role_arn}'")
-        os.system("export PATH=$PATH:/opt/awscli/; /opt/helm/helm --kubeconfig='/tmp/kubeconfig' uninstall bsv")
-        print('wait started')
-        time.sleep(40)
-        print('wait completed')
-        response['output'] = f' Delete event.'
+        nodegroup_name= props['nodegroup_name'].split('/')[1]
+        os.system(f"/opt/awscli/aws eks update-nodegroup-version --cluster-name {cluster_name} --nodegroup-name {nodegroup_name}")
+        response['output'] = f' Update event.'
     response['output'] = f' Event.'
     send(event, context, "SUCCESS", response)
 
