@@ -60,7 +60,7 @@ if ! grep -qE "^$environment$" <<< "$config_files"; then
     exit 1
 fi
 
- Set version to the latest if "latest" is specified
+# Set version to the latest if "latest" is specified
 if [ "$version" = "latest" ]; then
     version=$(gh release list -R bitcoin-sv/spv-wallet-helm --json 'isLatest,tagName' --jq '.[] | select(.isLatest) | .tagName | sub("spv-wallet-stack-";"")')
 fi
