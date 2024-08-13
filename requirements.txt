@@ -1,6 +1,5 @@
-aws-cdk-lib==2.127
-aws-cdk.lambda-layer-kubectl-v29
+aws-cdk-lib==2.147.1
+aws-cdk.lambda-layer-kubectl-v30
 constructs>=10.0.0,<11.0.0
 cdk-bootstrapless-synthesizer
 pyyaml
-aws_cdk.lambda_layer_kubectl_v28
