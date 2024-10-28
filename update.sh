@@ -20,8 +20,8 @@ update() {
   npx cdk-assets publish -p cdk.out/EksStack.assets.json -v
 
 
-  echo "Moving template to backup folder"
-  aws s3 --recursive mv "s3://$template_bucket_name/$file_asset_prefix" "s3://$template_bucket_name/spv-wallet/old"
+#   echo "Moving template to backup folder"
+#   aws s3 --recursive mv "s3://$template_bucket_name/$file_asset_prefix" "s3://$template_bucket_name/spv-wallet/old"
   echo "Updating template"
   aws s3 --recursive mv "s3://$template_bucket_name/spv-wallet/new" "s3://$template_bucket_name/$file_asset_prefix"
   for regionVar in ${!file_asset_region_set_*}; do
