@@ -3,5 +3,5 @@ file_asset_bucket_name_prefix: spv-wallet-marketplace-assets-1.0.0
 file_asset_region_set:
   - "us-east-1"
 file_asset_prefix: spv-wallet/1.0.0/
-helm_chart_version: 1.0.0
+helm_chart_version: 1.0.1
 eks_version: V1_30
