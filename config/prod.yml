@@ -1,7 +1,7 @@
-template_bucket_name: spv-wallet-template-1.0.3
-file_asset_bucket_name_prefix: spv-wallet-marketplace-assets-1.0.3
+template_bucket_name: spv-wallet-template-1.0.4
+file_asset_bucket_name_prefix: spv-wallet-marketplace-assets-1.0.4
 file_asset_region_set:
   - "us-east-1"
-file_asset_prefix: spv-wallet/1.0.3/
-helm_chart_version: 1.0.3
+file_asset_prefix: spv-wallet/1.0.4
+helm_chart_version: 1.0.4
 eks_version: V1_30
