@@ -20,8 +20,8 @@ update() {
   npx cdk-assets publish -p cdk.out/EksStack.assets.json -v
 
 
-  echo "Moving template to backup folder"
-  aws s3 --recursive mv "s3://$template_bucket_name/$file_asset_prefix" "s3://$template_bucket_name/spv-wallet/old"
+#   echo "Moving template to backup folder"
+#   aws s3 --recursive mv "s3://$template_bucket_name/$file_asset_prefix" "s3://$template_bucket_name/spv-wallet/old"
   echo "Updating template"
   aws s3 --recursive mv "s3://$template_bucket_name/spv-wallet/new" "s3://$template_bucket_name/$file_asset_prefix"
   for regionVar in ${!file_asset_region_set_*}; do
@@ -35,7 +35,7 @@ update() {
 }
 
 # Default values
-environment="test"
+environment="prod"
 version="latest"
 
 # Parse arguments
@@ -50,7 +50,7 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 if [ "$environment" == "" ]; then
-  environment="test"
+  environment="prod"
 fi
 
 # Check if environment argument matches a YAML file in ./config directory
@@ -72,11 +72,11 @@ fi
 
 currentVersion=$(yq ".helm_chart_version" "./config/${environment}.yml")
 
-if [ "$version" == "$currentVersion" ] && [ "$force" != "true" ]; then
-  echo "Nothing to update"
-  echo "Version in config/$environment.yml is already set to $version"
-  exit 0
-fi
+# if [ "$version" == "$currentVersion" ] && [ "$force" != "true" ]; then
+#   echo "Nothing to update"
+#   echo "Version in config/$environment.yml is already set to $version"
+#   exit 0
+# fi
 
 echo "Updating version to $version in config file for environment $environment"
 yq ".helm_chart_version=\"$version\"" -i "./config/${environment}.yml"

@@ -19,4 +19,4 @@ file_asset_region_set:
   - 'us-west-1'
   - 'us-west-2'
 file_asset_prefix: spv-wallet/latest/
-helm_chart_version: 0.7.0
+helm_chart_version: 1.0.1
