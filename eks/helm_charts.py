@@ -4,16 +4,20 @@ from constructs import Construct
 
 class HelmCharts(Construct):
     def __init__(self, scope: Construct, id: str, cluster, service_role, domainName, certificateArn,
-                 helm_chart_version: str, **kwargs) -> None:
+                 config, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
+
+        external_dns_version=config["external_dns_version"]
+        helm_chart_version=config["helm_chart_version"]
 
         externaldns = eks.HelmChart(
             self,
             "ExternelDNS",
             cluster=cluster,
             chart="external-dns",
-            repository="https://charts.bitnami.com/bitnami",
+            repository="oci://registry-1.docker.io/bitnamicharts/external-dns",
             release="external-dns",
+            version=external_dns_version,
             namespace="kube-system",
             values={
                 "domainFilters": [domainName.value_as_string],

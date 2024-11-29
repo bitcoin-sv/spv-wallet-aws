@@ -1,6 +1,6 @@
 from aws_cdk import aws_lambda as _lambda, CustomResource, Duration
 from constructs import Construct
-from aws_cdk.lambda_layer_kubectl_v28 import KubectlV28Layer
+from aws_cdk.lambda_layer_kubectl_v30 import KubectlV30Layer
 from aws_cdk.lambda_layer_awscli import AwsCliLayer
 from aws_cdk import aws_logs as logs
 from aws_cdk import RemovalPolicy
@@ -9,7 +9,7 @@ class CustomResourceLambda(Construct):
     def __init__(self, scope: Construct, id: str, cluster, eks_version, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        kubectl_layer = KubectlV28Layer(self, 'KubectlV28Layer')
+        kubectl_layer = KubectlV30Layer(self, 'KubectlV30Layer')
         awscli_layer = AwsCliLayer(self,'AwsCliLayer')
 
         log_group = logs.LogGroup(self, "CleanUpLambdaLogGroup",
