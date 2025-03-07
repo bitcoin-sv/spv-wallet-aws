@@ -17,8 +17,10 @@ from eks.alb_controller import AlbController
 
 class CdkEksStack(Stack):
 
-    def __init__(self, scope: Construct, construct_id: str, helm_chart_version: str, eks_version: str, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, config, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
+
+        eks_version = config["eks_version"]
 
         domainName = CfnParameter(self, 'domainName',
                                   type='String',
@@ -51,7 +53,7 @@ class CdkEksStack(Stack):
 
         DNSrole.node.add_dependency(clusterConstruct)
 
-        main_helm = HelmCharts(self,"HelmChartsConstruct",clusterConstruct.cluster, DNSrole.service_role,domainName,certificateConstruct.certificate, helm_chart_version)
+        main_helm = HelmCharts(self,"HelmChartsConstruct",clusterConstruct.cluster, DNSrole.service_role,domainName,certificateConstruct.certificate, config)
 
         main_helm.node.add_dependency(clusterConstruct)
         main_helm.node.add_dependency(albController)

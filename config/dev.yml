@@ -7,3 +7,4 @@ file_asset_region_set:
 file_asset_prefix: spv-wallet/latest/
 helm_chart_version: 0.5.0
 eks_version: V1_30
+external_dns_version: 8.6.0
