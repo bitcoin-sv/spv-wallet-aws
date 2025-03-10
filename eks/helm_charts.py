@@ -48,6 +48,7 @@ class HelmCharts(Construct):
             values={
                 "global": {
                     "domainName": domainName.value_as_string,
+                    "storageClass": "gp2",
                     "ingress": {
                         "certificate_arn": certificateArn,
                     }

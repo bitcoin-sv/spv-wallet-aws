@@ -7,7 +7,7 @@ from aws_cdk import (
 )
 
 from constructs import Construct
-from aws_cdk.lambda_layer_kubectl_v30 import KubectlV30Layer
+from aws_cdk.lambda_layer_kubectl_v32 import KubectlV32Layer
 import aws_cdk as core
 
 
@@ -15,7 +15,7 @@ class EKS(Construct):
     def __init__(self, scope: Construct, id: str, vpc, eks_version, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        kubectl_layer = KubectlV30Layer(self, 'KubectlV30Layer')
+        kubectl_layer = KubectlV32Layer(self, 'KubectlV32Layer')
         self.cluster = _eks.Cluster(self, "EKSCluster",
                               version=getattr(_eks.KubernetesVersion, eks_version),
                               default_capacity=0,
